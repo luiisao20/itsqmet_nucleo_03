@@ -34,7 +34,7 @@ const IndexScreen = () => {
           <ButtonComponent
             text="Registrarse"
             color="rgb(46, 121, 224)"
-            action={() => router.push("/auth/login")}
+            action={() => router.push("/auth/register")}
           />
         </View>
       </View>

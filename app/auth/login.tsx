@@ -5,9 +5,13 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  Pressable,
+  Text,
 } from "react-native";
 import { MonoText } from "@/components/StyledText";
 import ButtonComponent from "@/components/ButtonComponent";
+import { router } from "expo-router";
+import ThemedInput from "@/components/ThemedInput";
 
 const LoginScreen = () => {
   return (
@@ -16,25 +20,27 @@ const LoginScreen = () => {
         <View style={styles.inner}>
           <View style={{ gap: 20 }}>
             <MonoText style={styles.title}>Inicia sesión</MonoText>
-            <TextInput
+            <ThemedInput
               inputMode="text"
               autoCapitalize="none"
-              style={styles.input}
               placeholder="Nombre de usuario"
-              placeholderTextColor="white"
-              textAlign="center"
             />
-            <TextInput
+            <ThemedInput
               inputMode="text"
               autoCapitalize="none"
               secureTextEntry
-              style={styles.input}
               placeholder="Contraseña"
-              placeholderTextColor="white"
-              textAlign="center"
             />
+            <Pressable
+              onPress={() => router.push("/auth/register")}
+              style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
+            >
+              <MonoText style={{ color: "white" }}>
+                ¿No posees una cuenta? Regístrate aquí
+              </MonoText>
+            </Pressable>
           </View>
-          <ButtonComponent text="Continuar" action={() => {}} />
+          <ButtonComponent text="Continuar" action={() => router.push('/dashboard/home')} />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -50,21 +56,11 @@ const styles = StyleSheet.create({
   inner: {
     paddingHorizontal: 10,
     flex: 1,
-    justifyContent: 'space-between',
-    paddingBottom: 100
+    justifyContent: "space-between",
+    paddingBottom: 100,
   },
   title: {
     fontSize: 28,
     textAlign: "center",
-  },
-  input: {
-    borderColor: "#e8cfcfcb",
-    width: "100%",
-    borderWidth: 2,
-    borderRadius: 9999,
-    paddingHorizontal: 4,
-    fontSize: 20,
-    color: "white",
-    fontFamily: "SpaceMono",
   },
 });

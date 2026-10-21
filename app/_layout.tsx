@@ -55,6 +55,11 @@ function RootLayoutNav() {
             name="auth/login"
             options={{ title: "Iniciar Sesión" }}
           />
+          <Stack.Screen
+            name="auth/register"
+            options={{ title: "Crear una cuenta" }}
+          />
+          <Stack.Screen name="dashboard" options={{ headerShown: false }} />
         </Stack>
       </ThemeProvider>
     </SafeAreaProvider>
