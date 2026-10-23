@@ -2,18 +2,46 @@ import {
   View,
   KeyboardAvoidingView,
   StyleSheet,
-  TextInput,
   TouchableWithoutFeedback,
   Keyboard,
   Pressable,
-  Text,
+  Alert,
 } from "react-native";
 import { MonoText } from "@/components/StyledText";
 import ButtonComponent from "@/components/ButtonComponent";
 import { router } from "expo-router";
 import ThemedInput from "@/components/ThemedInput";
+import { useState } from "react";
+import { loginUser } from "@/actions/login-user.action";
+import { useAuthStore } from "@/lib/authStore";
 
 const LoginScreen = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const { setUser } = useAuthStore();
+
+  const handleLogin = async () => {
+    if (username.trim() === "" || password.trim() === "") {
+      Alert.alert("Error", "Nombre de usuario o contraseña vacíos");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const user = await loginUser({ username, password });
+      setUser(user);
+      router.dismissAll()
+      router.replace("/dashboard/home");
+    } catch (error) {
+      Alert.alert("Error", `Existió un error al momento de loguearse ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -24,12 +52,14 @@ const LoginScreen = () => {
               inputMode="text"
               autoCapitalize="none"
               placeholder="Nombre de usuario"
+              onChangeText={(value) => setUsername(value)}
             />
             <ThemedInput
               inputMode="text"
               autoCapitalize="none"
               secureTextEntry
               placeholder="Contraseña"
+              onChangeText={(value) => setPassword(value)}
             />
             <Pressable
               onPress={() => router.push("/auth/register")}
@@ -40,7 +70,11 @@ const LoginScreen = () => {
               </MonoText>
             </Pressable>
           </View>
-          <ButtonComponent text="Continuar" action={() => router.push('/dashboard/home')} />
+          <ButtonComponent
+            loading={loading}
+            text="Continuar"
+            action={handleLogin}
+          />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

@@ -1,11 +1,17 @@
-import { Text, Pressable, StyleSheet } from "react-native";
+import { Text, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 
 interface Props {
   text: string;
   color?: string;
+  loading?: boolean;
   action: () => void;
 }
-const ButtonComponent = ({ text, color = "blue", action }: Props) => {
+const ButtonComponent = ({
+  text,
+  color = "blue",
+  loading = false,
+  action,
+}: Props) => {
   return (
     <Pressable
       onPress={action}
@@ -14,7 +20,11 @@ const ButtonComponent = ({ text, color = "blue", action }: Props) => {
         { backgroundColor: color, opacity: pressed ? 0.7 : 1 },
       ]}
     >
-      <Text style={styles.buttonText}>{text}</Text>
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <Text style={styles.buttonText}>{text}</Text>
+      )}
     </Pressable>
   );
 };

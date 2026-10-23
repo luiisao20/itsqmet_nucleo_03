@@ -1,19 +1,22 @@
 import { FlatList, ActivityIndicator, View, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { getLocationsWeather } from "@/actions/get-locations-weather.action";
-import { cities } from "@/constants/cities";
 import { City } from "@/interfaces/models";
 import Card from "@/components/Card";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MonoText } from "@/components/StyledText";
+import { useAuthStore } from "@/lib/authStore";
 
 const HomeScreen = () => {
   const [citiesApi, setCitiesApi] = useState<City[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const { user } = useAuthStore();
+
   const loadData = async () => {
     setLoading(true);
     try {
-      const data = await getLocationsWeather(cities);
+      const data = await getLocationsWeather();
       setCitiesApi(data);
     } catch (error) {
     } finally {
@@ -37,7 +40,9 @@ const HomeScreen = () => {
       <FlatList
         ListHeaderComponent={() => (
           <View style={styles.header}>
-            <MonoText style={styles.title}>Elige tu próximo destino</MonoText>
+            <MonoText style={styles.title}>
+              Hola {user?.firstName}, elige tu próximo destino
+            </MonoText>
             <MonoText>
               Revisa las opciones disponibles, los datos de condiciones
               climáticas son en vivo, entonces ten en cuenta que pueden cambiar.

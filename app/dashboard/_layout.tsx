@@ -7,9 +7,9 @@ const DashboardLayout = () => {
         <NativeTabs.Trigger.Icon md="home" sf="house.fill" />
         <NativeTabs.Trigger.Label children="Inicio" />
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="settings">
-        <NativeTabs.Trigger.Icon md="settings" sf="house.fill" />
-        <NativeTabs.Trigger.Label children="Ajustes" />
+      <NativeTabs.Trigger name="bookings">
+        <NativeTabs.Trigger.Icon md="book" sf="house.fill" />
+        <NativeTabs.Trigger.Label children="Reservaciones" />
       </NativeTabs.Trigger>
     </NativeTabs>
   );

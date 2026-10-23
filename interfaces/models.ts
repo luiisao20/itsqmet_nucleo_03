@@ -3,10 +3,8 @@ export interface City {
   name: string;
   description: string;
   image: string;
-  coordinates: {
-    lan: number;
-    lon: number;
-  };
+  lan: number;
+  lon: number;
   weather?: Weather;
 }
 
@@ -14,7 +12,7 @@ export interface Weather {
   temperature: number;
   pressure: number;
   humidity: number;
-  description: string
+  description: string;
   speedWind: number;
 }
 
@@ -57,4 +55,13 @@ export interface WeatherApi {
 export interface Wind {
   speed: number;
   deg: number;
+}
+
+export interface Booking {
+  id: number;
+  date: number;
+  city: string;
+  image: string;
+  lan: number;
+  lon: number;
 }

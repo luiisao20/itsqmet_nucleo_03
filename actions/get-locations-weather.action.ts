@@ -1,15 +1,22 @@
-import { ApiResponse, City } from "@/interfaces/models";
+import { City } from "@/interfaces/models";
 import { getWeatherFromCoordinates } from "./weather-api.action";
+import { supabase } from "@/lib/supabase";
 
-export const getLocationsWeather = async (cities: City[]): Promise<City[]> => {
+export const getLocationsWeather = async (): Promise<City[]> => {
   try {
-    const promises = cities.map(async (city): Promise<City> => {
-      const data = await getWeatherFromCoordinates(
-        city.coordinates.lan,
-        city.coordinates.lon,
-      );
+    const { data: dataCities, error } = await supabase.from("cities").select();
+
+    if (error) throw error;
+
+    const promises = dataCities.map(async (city): Promise<City> => {
+      const data = await getWeatherFromCoordinates(city.lan, city.lon);
       return {
-        ...city,
+        name: data.name,
+        description: city.description,
+        id: city.id,
+        image: city.image,
+        lan: city.lan,
+        lon: city.lan,
         weather: {
           description: data.weather[0].description,
           temperature: data.main.temp,
